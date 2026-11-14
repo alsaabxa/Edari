@@ -269,6 +269,49 @@ html,body{width:210mm!important;margin:0!important;padding:0!important}
 #pages>.pg.ed-page.ed-side-layout .ed-side{right:0!important;top:0!important;bottom:0!important}
 #pages>.pg.ed-page.ed-cover-new .ed-main{width:100%!important;margin-right:0!important}
 }
+</style><style id="ed-landscape-match-safeer">
+/* Same 1123 x 632 landscape pages as safeer-re/portfolio.html */
+@page{size:297mm 167.1mm;margin:0}
+#pages{width:1123px!important;max-width:none!important;min-width:1123px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+#pages>.pg.ed-page.ed-side-layout{width:1123px!important;min-width:1123px!important;max-width:1123px!important;height:632px!important;min-height:632px!important;max-height:632px!important;margin:0 auto 14px!important;box-sizing:border-box!important;overflow:hidden!important}
+.ed-side-layout .ed-side{width:130px!important}
+.ed-side-layout .ed-main{width:calc(100% - 130px)!important;height:calc(100% - 30px)!important;margin-right:130px!important}
+.ed-side-layout .ed-page-footer{right:130px!important;height:30px!important}
+.ed-side-layout .ed-body{padding:22px 32px!important}
+.ed-side-layout .ed-heading{font-size:26px!important}
+.ed-side-layout .ed-goal-intro{margin:24px auto 0!important;padding:18px 26px!important}
+.ed-side-layout .ed-goal-intro h3{font-size:22px!important;margin-bottom:8px!important}
+.ed-side-layout .ed-goal-intro p{font-size:19px!important;line-height:1.8!important}
+.ed-side-layout .ed-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:11px!important;margin-top:22px!important}
+.ed-side-layout .ed-index-grid .ed-index-card{min-height:52px!important}
+.ed-side-layout .ed-evidence img{max-height:405px!important;max-width:100%!important;object-fit:contain!important}
+.ed-side-layout .ed-scene{transform:scale(.76);transform-origin:top center}
+.ed-side-layout .ed-chapter{transform:scale(.8);transform-origin:top center}
+.ed-side-layout.ed-cover-new .ed-main{width:100%!important;height:100%!important;margin-right:0!important}
+.ed-cover-new .ed-new-cover{width:100%!important;height:100%!important}
+.ed-cover-new .ed-new-cover:before{right:-100px!important;top:-120px!important;width:340px!important;height:950px!important}
+.ed-cover-new .ed-new-cover:after{bottom:-100px!important}
+.ed-cover-new .ed-cover-vision{padding:14px 18px!important;font-size:13px!important}
+.ed-cover-new .ed-cover-vision b{font-size:35px!important}
+.ed-cover-new .ed-cover-ministry{top:35px!important;right:300px!important;font-size:23px!important}
+.ed-cover-new .ed-cover-art{top:88px!important;left:0!important;width:345px!important;height:435px!important}
+.ed-cover-new .ed-cover-school{top:70px!important;width:260px!important;height:240px!important}
+.ed-cover-new .ed-cover-panel{top:195px!important;right:235px!important;left:335px!important;min-height:320px!important;padding:42px 25px 16px!important;border-radius:26px!important}
+.ed-cover-new .ed-cover-folder{top:-32px!important;width:64px!important;height:64px!important;right:calc(50% - 32px)!important;font-size:35px!important}
+.ed-cover-new .ed-cover-panel h1{font-size:37px!important;line-height:1.35!important;margin-bottom:13px!important}
+.ed-cover-new .ed-cover-panel p{font-size:17px!important;margin:7px 0!important}
+.ed-cover-new .ed-cover-values{bottom:27px!important;right:160px!important;left:270px!important;font-size:12px!important}
+.ed-cover-new .ed-cover-values span{padding:6px 4px!important}
+@media print{
+html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!important;margin:0!important;padding:0!important}
+#pages{width:297mm!important;min-width:297mm!important;max-width:297mm!important;zoom:1!important;transform:none!important;margin:0!important;padding:0!important}
+#pages>.pg.ed-page.ed-side-layout{width:297mm!important;min-width:297mm!important;max-width:297mm!important;height:167.1mm!important;min-height:167.1mm!important;max-height:167.1mm!important;margin:0!important;padding:0!important;break-after:page!important;page-break-after:always!important;break-inside:avoid!important;box-shadow:none!important}
+#pages>.pg.ed-page.ed-side-layout:last-child{break-after:auto!important;page-break-after:auto!important}
+#pages>.pg.ed-page.ed-side-layout .ed-side{width:130px!important;height:100%!important;right:0!important}
+#pages>.pg.ed-page.ed-side-layout .ed-main{width:calc(100% - 130px)!important;margin-right:130px!important}
+#pages>.pg.ed-page.ed-cover-new .ed-main{width:100%!important;margin-right:0!important}
+*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+}
 </style></head>
 <body>
 <div class="panel">
@@ -378,7 +421,7 @@ function pages(){
 function fitText(){
  document.querySelectorAll(".cv .fld").forEach(e=>{let s=19;e.style.fontSize=s+"px";while(e.scrollWidth>e.clientWidth+1&&s>10){s-=.5;e.style.fontSize=s+"px"}});
  document.querySelectorAll(".cv .hd").forEach(e=>{const i=e.firstElementChild;let s=17;e.style.fontSize=s+"px";while((i.scrollHeight>e.clientHeight||i.scrollWidth>e.clientWidth+1)&&s>9){s-=.5;e.style.fontSize=s+"px"}})}
-const fit=()=>{$("pages").style.zoom=Math.min(1,(document.documentElement.clientWidth-32)/794)};
+const fit=()=>{$("pages").style.zoom=Math.min(1,(document.documentElement.clientWidth-32)/1123)};
 addEventListener("resize",fit);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitText);
 const idb=()=>new Promise((r,j)=>{const q=indexedDB.open("edari-portfolio",1);q.onupgradeneeded=()=>q.result.createObjectStore("s");q.onsuccess=()=>r(q.result);q.onerror=j});
@@ -388,7 +431,7 @@ function upd(){clearTimeout(T);T=setTimeout(()=>{pages();saveDB()},250)}
 const msg=t=>{$("msg").textContent=t};
 /* انتظار الخط والصور والباركود قبل التصوير */
 async function ready(){try{await document.fonts.ready}catch(e){}await Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r})));fitText();await new Promise(r=>setTimeout(r,350))}
-async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:794,height:1123,windowWidth:794});if(i)d.addPage("a4","portrait");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,210,297,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
+async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"landscape",unit:"mm",format:[297,167.1]}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:1123,height:632,windowWidth:1123});if(i)d.addPage([297,167.1],"landscape");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,297,167.1,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
 const pname=()=>"ملف-إنجاز-"+(S.f.amb||(S.f.schoolType==="boys"?"المساعد الإداري":"المساعدة الإدارية"))+".pdf";
 function save(b,n){const a=document.createElement("a");a.download=n||pname();a.href=URL.createObjectURL(b);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 $("dl").onclick=async()=>{try{save(await makePDF());msg("تم تنزيل الملف.")}catch(e){msg("تعذّر إنشاء PDF.")}};
