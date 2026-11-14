@@ -131,7 +131,36 @@ dialog::backdrop{background:#0007}
 .ed-scene-page .ed-scene{top:270px;left:10%;right:10%}
 .ed-scene-page .ed-quote{background:#0da9a6;justify-content:center}
 .ed-scene-page .ed-desk{background:linear-gradient(90deg,#4387b9 0 33%,#e5e5e5 33% 66%,#c5b58c 66%);height:270px;margin:0}
-</style><style>.ed-page .ed-ministry-logo{position:absolute;top:29px;left:35px;width:100px;height:78px;object-fit:contain;z-index:20}@media print{.ed-page .ed-ministry-logo{display:block!important}}</style></head>
+</style><style>.ed-page .ed-ministry-logo{position:absolute;top:29px;left:35px;width:100px;height:78px;object-fit:contain;z-index:20}@media print{.ed-page .ed-ministry-logo{display:block!important}}</style><style>
+/* Matching the A4 21-page source layout: 595x842 pt, rendered 794x1123 CSS pixels */
+.pg.ed-page{width:794px!important;height:1123px!important;background:#fff!important;color:#183f5b;overflow:hidden}
+.ed-page .ed-top{height:11px;background:#4387ba}
+.ed-page .ed-bottom{left:0;right:auto;bottom:0;width:52%;height:18px;border-radius:0 32px 0 0;background:#04b6a8}
+.ed-page .ed-ministry-logo{top:22px;left:28px;width:94px;height:75px;object-fit:contain}
+.ed-cover .ed-cover-photo{top:135px;right:0;left:11.5%;height:740px;background:linear-gradient(90deg,#05a9a8b8,#05b9a6bb),linear-gradient(145deg,#b6d4d4,#e5e5e5)!important}
+.ed-cover .ed-cover-title{top:380px;right:0;left:0;background:#0fa4a3;color:white;border:0;border-radius:0;min-height:330px;padding:55px 13%}
+.ed-cover .ed-cover-title h1{background:transparent;color:white;text-align:center;font-size:34px;padding:0;margin:0 0 30px;border-radius:0}
+.ed-cover .ed-cover-title p{color:white;font-size:18px;text-align:right;margin:9px 0}
+.ed-cover .ed-cover-sign{top:40px;right:auto;left:35px;font-size:12px}
+.ed-motto{font-size:70px;line-height:1.5;margin:425px auto 0;width:75%;color:#c0b48d}
+.ed-page .ed-heading{margin:40px 50px 35px;border-radius:30px;padding:8px 22px;background:linear-gradient(90deg,#0e9c6c,#3c91bd);font-size:22px}
+.ed-page .ed-body{padding:25px 80px;font-size:22px;line-height:1.85}
+.ed-page .ed-index{font-size:17px;line-height:1.5}
+.ed-page .ed-index>div{padding:14px 18px;margin:11px 0;border:1px solid #d7d0b8;border-radius:0}
+.ed-scene-page .ed-scene{position:absolute;top:365px;right:0;left:0;width:100%}
+.ed-scene-page .ed-quote{display:flex;position:relative;min-height:150px;width:60%;margin-right:40%;padding:15px 22px;background:#0ca9a6;color:white;border-radius:0;text-align:center;justify-content:center;font-size:23px}
+.ed-scene-page .ed-icon{display:none}
+.ed-scene-page .ed-quote:before{content:"";position:absolute;right:-390px;top:0;width:200px;height:150px;background:#c3b48b}
+.ed-scene-page .ed-quote:after{content:"";position:absolute;right:-490px;top:0;width:65px;height:150px;background:#4387b9}
+.ed-scene-page .ed-desk{margin:24px 10% 0;width:80%;height:320px;background:linear-gradient(180deg,#e8eaeb,#f8f9f9)!important;position:relative}
+.ed-scene-page .ed-desk:after{content:"▤";font-size:110px;color:#52696d;position:absolute;top:25%;left:40%}
+.ed-chapter-page .ed-chapter{position:absolute;top:295px;right:0;width:82%;height:385px;background:transparent}
+.ed-chapter-page .ed-chapter-image{height:200px;background:linear-gradient(135deg,#b9815f,#e6c4a5)!important}
+.ed-chapter-page .ed-chapter-band{height:185px;background:#c6b68dcc!important;color:#214c6b;font-size:28px;display:grid;place-items:center}
+.ed-chapter-page .ed-blue{display:block;top:295px;left:0;right:auto;width:105px;height:385px;background:#0768a7}
+.ed-page .ed-evidence img{max-height:720px}
+@media print{@page{size:A4 portrait;margin:0}.pg.ed-page{width:794px!important;height:1123px!important;break-after:page;page-break-after:always}}
+</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -195,8 +224,8 @@ function pages(){
  const sections=[["البيانات الأساسية","البيانات الأساسية"],["الشواهد والوثائق","الشواهد والوثائق"],["النماذج والاستمارات","النماذج والاستمارات"],["الخطط والتقارير","الخطط والتقارير"],["المبادرات والإنجازات","المبادرات والإنجازات"],["أوراق العمل والتدريب","أوراق العمل والتدريب"]];
  const shell=(body,cl="")=>'<section class="pg ed-page '+cl+'"><div class="ed-top"></div><img class="ed-ministry-logo" src="assets/ministry-logo.svg" alt="شعار وزارة التعليم">'+body+'<div class="ed-bottom"></div></section>';
  const heading=(t)=>'<div class="ed-heading">'+esc(t)+'</div>';
- const scene=(quote)=>shell('<div class="ed-scene"><div class="ed-quote"><span class="ed-icon">✦</span><span>'+esc(quote)+'</span></div><div class="ed-desk">✎ &nbsp; ▤ &nbsp; ◇ &nbsp; ▱</div></div>','ed-scene-page');
- const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image">⌨ &nbsp; ▤ &nbsp; ✂ &nbsp; ▱</div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
+ const scene=(quote)=>shell('<div class="ed-scene"><div class="ed-quote"><span class="ed-icon">✦</span><span>'+esc(quote)+'</span></div><div class="ed-desk"></div></div>','ed-scene-page');
+ const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image"></div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
  const pg=(title,content)=>shell('<div class="ed-body">'+heading(title)+content+'</div>');
  const line=(k,v)=>'<div class="ed-line"><strong>'+esc(k)+'</strong><span>'+esc(v||'................................')+'</span></div>';
  out.push(shell('<div class="ed-cover-photo"></div><div class="ed-cover-title"><h1>ملف الإنجاز للمساعد الإداري</h1><p>الاسم: '+esc(f.amb||'........................')+'</p><p>المدرسة: '+esc(f.school||'........................')+'</p></div><div class="ed-cover-sign">وزارة التعليم</div>','ed-cover'));
