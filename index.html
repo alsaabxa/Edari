@@ -361,7 +361,7 @@ html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!import
 .ed-profile-card .ed-line strong{grid-column:1!important;text-align:right!important;white-space:normal!important}
 .ed-profile-card .ed-line span{grid-column:2!important;text-align:right!important;direction:rtl!important;min-width:0!important;overflow-wrap:anywhere!important}
 .ed-profile-school .ed-line{grid-template-columns:26% minmax(0,1fr)!important}
-</style></head>
+</style><style id="ed-introduction-format">.ed-introduction{max-width:900px;margin:35px auto 0;padding:20px 32px;direction:rtl;text-align:justify}.ed-introduction .ed-par{font-size:23px!important;line-height:1.95!important;margin:0 0 22px!important;color:#23465c!important}</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -432,7 +432,7 @@ function pages(){
  out.push(shell('<div class="ed-new-cover"><div class="ed-cover-vision">رؤية السعودية <b>2030</b></div><div class="ed-cover-ministry"><img src="assets/ministry-logo.svg" alt="شعار وزارة التعليم" class="ed-cover-ministry-logo"></div><div class="ed-cover-art"><div class="ed-cover-sun"></div><div class="ed-cover-school"><div class="ed-school-windows">▦ ▦ ▦<br>▦ ▦ ▦<br>▦ ▦ ▦</div><div class="ed-school-door"></div></div><div class="ed-cover-palm">🌴</div><div class="ed-cover-bus">🚌</div></div><div class="ed-cover-panel"><div class="ed-cover-folder">▣</div><h1>ملف إنجاز<br>'+role+'</h1><p>اسم '+role+': <strong>'+esc(f.amb||'')+'</strong></p><p>المدرسة: <strong>'+esc(f.school||'')+'</strong></p></div><div class="ed-cover-values"><span>دعم العملية<br>التعليمية</span><span>توثيق الأعمال<br>والإنجازات</span><span>تنظيم وإدارة<br>الإجراءات</span><span>رفع كفاءة<br>الأعمال الإدارية</span></div></div>','ed-cover ed-cover-new'));
  out.push(shell('<div class="ed-motto">بسم الله الرحمن الرحيم</div>'));
  out.push(scene('من يزرع التنظيم يحصد التميز'));
- out.push(pg('المقدمة','<p class="ed-par">إن ملف الإنجاز يعد مرجعًا توثيقيًا يبرز دور '+role+' في المدرسة، ويعكس جهوده في تنظيم العمل ومتابعة الإنجازات.</p><p class="ed-par">يهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية وإبراز الدور الحيوي للمساعد الإداري في دعم العملية التعليمية وتعزيز ثقافة الإنجاز والعمل بروح الفريق.</p>'));
+ out.push(pg('المقدمة','<div class="ed-introduction"><p class="ed-par">يُعدّ ملف الإنجاز مرجعًا توثيقيًا متكاملًا يُبرز دور '+role+' في دعم منظومة العمل المدرسي، ويعكس ما يبذله من جهود في تنظيم الإجراءات الإدارية، ومتابعة المهام، وتوثيق الأعمال والإنجازات، بما يسهم في رفع كفاءة الأداء وتحسين جودة العمل.</p><p class="ed-par">ويهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية، وإبراز إسهامات '+role+' في دعم العملية التعليمية، وتعزيز ثقافة الإنجاز، وترسيخ قيم التعاون والعمل بروح الفريق، سعيًا نحو بيئة مدرسية منظمة ومحفزة على التميز والإبداع.</p></div>'));
  out.push(pg('الفهرس','<div class="ed-index ed-index-grid">'+sections.map((x,i)=>'<div class="ed-index-card"><span class="ed-index-count">'+((S.sec[SEC[i][0]]||{}).items||[]).length+'</span><strong>'+esc(x[0])+'</strong></div>').join('')+'</div>'));
  out.push(scene('الإدارة الناجحة هي التي تجعل الصعب سهلاً'));
  const quotes=['النجاح يبدأ بخطوة','كل وثيقة إنجاز تحمل بصمة تميز','النظام يختصر الجهد ويضاعف الإنتاج','التقارير توثق الإنجازات وتوجه المستقبل','كل إنجاز صغير يقود لإنجاز أعظم','التعلم المستمر سر الريادة'];
