@@ -131,7 +131,7 @@ dialog::backdrop{background:#0007}
 .ed-scene-page .ed-scene{top:270px;left:10%;right:10%}
 .ed-scene-page .ed-quote{background:#0da9a6;justify-content:center}
 .ed-scene-page .ed-desk{background:linear-gradient(90deg,#4387b9 0 33%,#e5e5e5 33% 66%,#c5b58c 66%);height:270px;margin:0}
-</style></head>
+</style><style>.ed-page .ed-ministry-logo{position:absolute;top:29px;left:35px;width:100px;height:78px;object-fit:contain;z-index:20}@media print{.ed-page .ed-ministry-logo{display:block!important}}</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -193,7 +193,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-del]");if(
 function pages(){
  const f=S.f, out=[];let n=0;
  const sections=[["البيانات الأساسية","البيانات الأساسية"],["الشواهد والوثائق","الشواهد والوثائق"],["النماذج والاستمارات","النماذج والاستمارات"],["الخطط والتقارير","الخطط والتقارير"],["المبادرات والإنجازات","المبادرات والإنجازات"],["أوراق العمل والتدريب","أوراق العمل والتدريب"]];
- const shell=(body,cl="")=>'<section class="pg ed-page '+cl+'"><div class="ed-top"></div>'+body+'<div class="ed-bottom"></div></section>';
+ const shell=(body,cl="")=>'<section class="pg ed-page '+cl+'"><div class="ed-top"></div><img class="ed-ministry-logo" src="assets/ministry-logo.svg" alt="شعار وزارة التعليم">'+body+'<div class="ed-bottom"></div></section>';
  const heading=(t)=>'<div class="ed-heading">'+esc(t)+'</div>';
  const scene=(quote)=>shell('<div class="ed-scene"><div class="ed-quote"><span class="ed-icon">✦</span><span>'+esc(quote)+'</span></div><div class="ed-desk">✎ &nbsp; ▤ &nbsp; ◇ &nbsp; ▱</div></div>','ed-scene-page');
  const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image">⌨ &nbsp; ▤ &nbsp; ✂ &nbsp; ▱</div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
