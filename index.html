@@ -217,6 +217,35 @@ html,body{width:210mm!important;min-width:210mm!important;max-width:210mm!import
 .panel,dialog{display:none!important}
 *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
+</style><style>
+/* Portrait A4 adaptation of the approved teal/gold portfolio cover */
+.ed-side-layout.ed-cover-new .ed-side{display:none!important}
+.ed-side-layout.ed-cover-new .ed-main{width:100%!important;height:100%!important;margin-right:0!important}
+.ed-side-layout.ed-cover-new .ed-page-footer{display:none!important}
+.ed-cover-new .ed-top,.ed-cover-new .ed-bottom{display:none!important}
+.ed-new-cover{position:relative;width:100%;height:100%;box-sizing:border-box;background:radial-gradient(ellipse at 47% 34%,#fff 0%,#f7f9f8 66%,#e4f2f0 100%);overflow:hidden;color:#00686c;direction:rtl}
+.ed-new-cover:before{content:"";position:absolute;right:-160px;top:-100px;width:390px;height:135%;background:linear-gradient(140deg,#005e63,#0b888a 65%,#004a52);border-left:12px solid #d8ad51;border-radius:48% 0 0 50%;transform:rotate(5deg)}
+.ed-new-cover:after{content:"";position:absolute;left:-80px;bottom:-95px;width:370px;height:175px;background:#00666a;transform:rotate(-12deg);border-top:9px solid #d7a74d}
+.ed-cover-vision{position:absolute;left:0;top:0;padding:28px 18px;background:#00696c;color:#fff;border-radius:0 0 90px 0;z-index:2;font-size:17px;font-weight:bold}
+.ed-cover-vision b{display:block;font-size:45px;line-height:1}
+.ed-cover-ministry{position:absolute;top:76px;right:210px;z-index:3;font-weight:900;font-size:27px;text-align:center;color:#007a7a}
+.ed-cover-ministry:before{content:"•••••••  •••••••";display:block;color:#009e9a;font-size:20px;letter-spacing:4px}
+.ed-cover-ministry small{display:block;font-size:12px;color:#6b7778;font-weight:500}
+.ed-cover-art{position:absolute;left:0;top:235px;width:275px;height:480px;background:linear-gradient(160deg,#c4e9f9 5%,#f7e6b8 65%,#b5d69d 66%);clip-path:polygon(0 17%,56% 0,100% 23%,100% 82%,47% 100%,0 81%);border-radius:28px}
+.ed-cover-school{position:absolute;left:15px;top:95px;width:235px;height:255px;background:#e7d6a8;border-top:14px solid #007f84;border-bottom:10px solid #c2a363;box-shadow:inset -25px 0 #d3bd90}
+.ed-school-windows{font-size:42px;color:#5a9ea5;line-height:1.5;text-align:center}
+.ed-school-door{position:absolute;bottom:0;left:90px;width:55px;height:70px;background:#13525b}
+.ed-cover-palm{position:absolute;top:245px;left:90px;font-size:95px;z-index:2}
+.ed-cover-bus{position:absolute;bottom:38px;left:18px;font-size:66px;z-index:3}
+.ed-cover-panel{position:absolute;right:108px;left:130px;top:380px;min-height:355px;background:rgba(255,255,255,.96);border:3px solid #008c8a;border-radius:40px;z-index:4;padding:62px 24px 25px;box-sizing:border-box;text-align:center}
+.ed-cover-folder{position:absolute;top:-40px;right:calc(50% - 41px);width:82px;height:82px;background:#00787a;border-radius:50%;color:white;font-size:48px;display:grid;place-items:center}
+.ed-cover-panel h1{font-size:40px!important;color:#00686c!important;line-height:1.6!important;margin:0 0 20px!important;background:none!important;padding:0!important}
+.ed-cover-panel p{font-size:17px;color:#005a60;text-align:right;margin:12px 0;font-weight:800}
+.ed-cover-panel strong{font-weight:600;border-bottom:1px dotted #00686c;display:inline-block;min-width:90px}
+.ed-cover-values{position:absolute;bottom:90px;left:35px;right:90px;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:0;color:#005f66;font-size:14px;font-weight:900;text-align:center}
+.ed-cover-values span{padding:12px 5px;border-left:2px solid #007d80;line-height:1.7}
+.ed-cover-values span:last-child{border-left:0}
+@media print{.ed-cover-new .ed-main{margin-right:0!important;width:100%!important}.ed-cover-new .ed-side,.ed-cover-new .ed-page-footer{display:none!important}}
 </style></head>
 <body>
 <div class="panel">
@@ -285,7 +314,7 @@ function pages(){
  const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image"></div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
  const pg=(title,content)=>shell('<div class="ed-body">'+heading(title)+content+'</div>');
  const line=(k,v)=>'<div class="ed-line"><strong>'+esc(k)+'</strong><span>'+esc(v||'................................')+'</span></div>';
- out.push(shell('<div class="ed-cover-photo"></div><div class="ed-cover-title"><h1>ملف الإنجاز للمساعد الإداري</h1><p>الاسم: '+esc(f.amb||'........................')+'</p><p>المدرسة: '+esc(f.school||'........................')+'</p></div><div class="ed-cover-sign">وزارة التعليم</div>','ed-cover'));
+ out.push(shell('<div class="ed-new-cover"><div class="ed-cover-vision">رؤية السعودية <b>2030</b></div><div class="ed-cover-ministry">وزارة التعليم<small>Ministry of Education</small></div><div class="ed-cover-art"><div class="ed-cover-sun"></div><div class="ed-cover-school"><div class="ed-school-windows">▦ ▦ ▦<br>▦ ▦ ▦<br>▦ ▦ ▦</div><div class="ed-school-door"></div></div><div class="ed-cover-palm">🌴</div><div class="ed-cover-bus">🚌</div></div><div class="ed-cover-panel"><div class="ed-cover-folder">▣</div><h1>ملف إنجاز<br>'+role+'</h1><p>اسم '+role+': <strong>'+esc(f.amb||'................................')+'</strong></p><p>المدرسة: <strong>'+esc(f.school||'................................')+'</strong></p></div><div class="ed-cover-values"><span>دعم العملية<br>التعليمية</span><span>توثيق الأعمال<br>والإنجازات</span><span>تنظيم وإدارة<br>الإجراءات</span><span>رفع كفاءة<br>الأعمال الإدارية</span></div></div>','ed-cover ed-cover-new'));
  out.push(shell('<div class="ed-motto">بسم الله الرحمن الرحيم</div>'));
  out.push(scene('من يزرع التنظيم يحصد التميز'));
  out.push(pg('المقدمة','<p class="ed-par">إن ملف الإنجاز يعد مرجعًا توثيقيًا يبرز دور '+role+' في المدرسة، ويعكس جهوده في تنظيم العمل ومتابعة الإنجازات.</p><p class="ed-par">يهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية وإبراز الدور الحيوي للمساعد الإداري في دعم العملية التعليمية وتعزيز ثقافة الإنجاز والعمل بروح الفريق.</p>'));
