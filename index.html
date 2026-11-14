@@ -464,11 +464,11 @@ function pages(){
    if(!items.length)out.push(pg(name+' — التقارير والشواهد','<div class="ed-empty">تُعرض التقارير والشواهد الخاصة بهذا الهدف هنا تلقائيًا عند إرفاقها.</div>'));
    out.push(scene(quotes[i]));
  });
- const reportRecords=SEC.flatMap(([key,goal])=>(S.sec[key]?.items||[]).map(item=>({title:item.cap||'تقرير أو شاهد إنجاز',beneficiary:item.beneficiary||goal.replace(/^الهدف [^:]+:\\s*/,''),summary:item.summary||goal})));
+ const reportRecords=SEC.flatMap(([key,goal],goalIndex)=>(S.sec[key]?.items||[]).map(item=>({title:item.cap||item.name||'تقرير أو شاهد إنجاز',beneficiary:item.beneficiary||goal.replace(/^الهدف [^:]+:\\s*/,''),summary:goalDescriptions[goalIndex]||goal})));
  for(let ri=0;ri<Math.max(1,Math.ceil(reportRecords.length/10));ri++){
    const batch=reportRecords.slice(ri*10,ri*10+10);
    const rows=Array.from({length:10},(_,j)=>{const x=batch[j];return '<tr><td>'+esc(x?.title||'')+'</td><td>'+esc(x?.beneficiary||'')+'</td><td>'+esc(x?.summary||'')+'</td></tr>'}).join('');
-   out.push(pg('سجل التقارير والإنجازات'+(ri?' (تابع)':''),'<div class="ed-reg-meta"><span>اسم المدرسة: '+esc(f.school||'')+'</span><span>العام الدراسي: '+esc(f.year||'')+'</span></div><table class="ed-reg-table"><thead><tr><th>عنوان العمل/التقرير</th><th>الجهة المستفيدة أو الهدف</th><th>وصف موجز للعمل</th></tr></thead><tbody>'+rows+'</tbody></table><div class="ed-reg-note">تُدرج التقارير والشواهد تلقائيًا من جميع الأهداف عند إضافتها إلى الملف.</div>'));
+   out.push(pg('سجل التقارير والإنجازات'+(ri?' (تابع)':''),'<div class="ed-reg-meta"><span>اسم المدرسة: '+esc(f.school||'')+'</span><span>العام الدراسي: '+esc(f.year||'')+'</span></div><table class="ed-reg-table"><thead><tr><th>عنوان العمل/التقرير</th><th>الجهة المستفيدة أو الهدف</th><th>وصف موجز للعمل</th></tr></thead><tbody>'+rows+'</tbody></table><div class="ed-reg-note">يظهر عنوان التقرير من اسم المرفق، ويُعرض في الوصف شرح الهدف المرتبط به تلقائيًا.</div>'));
  }
  out.push(pg('الخاتمة','<div class="ed-closing"><h2>ختام ملف الإنجاز</h2><p>في ختام هذا الملف، أعتز بتوثيق ما أُنجز من أعمال ومهام إدارية أسهمت في تنظيم الإجراءات المدرسية، ودعم العملية التعليمية، وتعزيز جودة العمل بروح التعاون والمسؤولية.</p><p>وأتطلع إلى مواصلة التطوير والتحسين، بما يحقق الكفاءة الإدارية ويسهم في تهيئة بيئة مدرسية منظمة ومحفزة.</p><div class="ed-closing-thanks">مع خالص الشكر والتقدير لكل من أسهم في نجاح هذه الأعمال.</div><strong>'+esc(f.amb||role)+'</strong></div>'));
  out.push(scene('الإدارة ليست وظيفة، بل رسالة نبيلة لبناء الأجيال وصناعة المستقبل'));
