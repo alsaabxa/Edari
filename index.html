@@ -336,6 +336,26 @@ html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!import
 .pg.ed-page.ed-side-layout .ed-goal-intro h3{margin:0 0 8px!important;font-size:22px!important}
 .pg.ed-page.ed-side-layout .ed-goal-intro p{font-size:20px!important;line-height:1.8!important}
 .pg.ed-page.ed-side-layout:has(.ed-chapter) .ed-chapter{margin-top:0!important}
+</style><style id="ed-safeer-cards-and-register">
+.ed-profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;direction:rtl}
+.ed-profile-card{border:2px solid #d6a838;border-radius:17px;padding:16px 20px;background:#fff;min-width:0}
+.ed-profile-card h3{background:#0a8282;border-radius:25px;text-align:center;color:#fff;font-size:19px;margin:0 0 14px;padding:5px}
+.ed-profile-card .ed-line{padding:12px 6px;font-size:17px;min-height:30px;align-items:center}
+.ed-profile-card .ed-line strong{color:#078181;flex-shrink:0}
+.ed-profile-card .ed-line span{overflow-wrap:anywhere;text-align:left}
+.ed-profile-school{grid-column:1/-1}
+.ed-profile-school .ed-line{padding:10px 8px}
+.ed-reg-meta{display:flex;justify-content:space-between;gap:12px;border:2px solid #d6a838;border-radius:12px;padding:9px 16px;color:#007c7c;font-weight:800;margin:16px 0 12px;font-size:15px}
+.ed-reg-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl;font-size:14px}
+.ed-reg-table th{background:#087e80;color:#fff;padding:9px 7px;border:1px solid #376567}
+.ed-reg-table td{height:30px;padding:5px 7px;border:1px solid #778989;text-align:center;overflow-wrap:anywhere;line-height:1.2;max-height:48px}
+.ed-reg-table th:nth-child(1){width:29%}.ed-reg-table th:nth-child(2){width:25%}
+.ed-reg-note{border:2px solid #d6a838;border-radius:12px;background:#e0f2f0;padding:12px 15px;margin-top:13px;text-align:center;color:#15585a;font-size:14px}
+.ed-closing{max-width:820px;margin:24px auto 0;text-align:center;color:#174c50}
+.ed-closing h2{color:#087e80;font-size:31px;margin:0 0 20px}
+.ed-closing p{font-size:20px;line-height:1.8;margin:12px auto}
+.ed-closing-thanks{margin:22px auto 10px;color:#b48a28;font-weight:800;font-size:21px}
+.ed-closing strong{font-size:19px;color:#087e80}
 </style></head>
 <body>
 <div class="panel">
@@ -421,7 +441,7 @@ function pages(){
  ];
  SEC.forEach(([key,name],i)=>{
    out.push(chapter(i,name));
-   if(i===0)out.push(pg('البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم '+principal+'',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
+   if(i===0)out.push(pg('البيانات الشخصية','<div class="ed-profile-grid"><div class="ed-profile-card"><h3>بيانات '+role+'</h3>'+line('الاسم',f.amb)+line('الجوال',f.ambTel)+line('البريد الإلكتروني',f.ambMail)+'</div><div class="ed-profile-card"><h3>بيانات '+principal+' المدرسة</h3>'+line('الاسم',f.prin)+line('الجوال',f.prinTel)+line('بريد المدرسة الرسمي',f.prinMail)+'</div><div class="ed-profile-card ed-profile-school">'+line('اسم المدرسة',f.school)+line('العام الدراسي',f.year)+'</div></div>'));
    const sec=S.sec[key]||{items:[],link:''};
    out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
    const items=sec.items||[];
@@ -439,7 +459,13 @@ function pages(){
    if(!items.length)out.push(pg(name+' — التقارير والشواهد','<div class="ed-empty">تُعرض التقارير والشواهد الخاصة بهذا الهدف هنا تلقائيًا عند إرفاقها.</div>'));
    out.push(scene(quotes[i]));
  });
- out.push(pg('الخاتمة','<p class="ed-par">في ختام هذا الملف، يتجلى دور '+role+' كحلقة وصل فاعلة بين القيادة و'+staff+' والطلاب، وكركيزة أساسية لضمان انتظام العمل المدرسي وجودته.</p><p class="ed-par">إن ما تم توثيقه هنا ليس مجرد أوراق، بل هو شواهد على التفاني والإخلاص والحرص على خدمة بيئة التعليم.</p>'));
+ const reportRecords=SEC.flatMap(([key,goal])=>(S.sec[key]?.items||[]).map(item=>({title:item.cap||'تقرير أو شاهد إنجاز',beneficiary:item.beneficiary||goal.replace(/^الهدف [^:]+:\\s*/,''),summary:item.summary||goal})));
+ for(let ri=0;ri<Math.max(1,Math.ceil(reportRecords.length/10));ri++){
+   const batch=reportRecords.slice(ri*10,ri*10+10);
+   const rows=Array.from({length:10},(_,j)=>{const x=batch[j];return '<tr><td>'+esc(x?.title||'')+'</td><td>'+esc(x?.beneficiary||'')+'</td><td>'+esc(x?.summary||'')+'</td></tr>'}).join('');
+   out.push(pg('سجل التقارير والإنجازات'+(ri?' (تابع)':''),'<div class="ed-reg-meta"><span>اسم المدرسة: '+esc(f.school||'')+'</span><span>العام الدراسي: '+esc(f.year||'')+'</span></div><table class="ed-reg-table"><thead><tr><th>عنوان العمل/التقرير</th><th>الجهة المستفيدة أو الهدف</th><th>وصف موجز للعمل</th></tr></thead><tbody>'+rows+'</tbody></table><div class="ed-reg-note">تُدرج التقارير والشواهد تلقائيًا من جميع الأهداف عند إضافتها إلى الملف.</div>'));
+ }
+ out.push(pg('الخاتمة','<div class="ed-closing"><h2>ختام ملف الإنجاز</h2><p>في ختام هذا الملف، أعتز بتوثيق ما أُنجز من أعمال ومهام إدارية أسهمت في تنظيم الإجراءات المدرسية، ودعم العملية التعليمية، وتعزيز جودة العمل بروح التعاون والمسؤولية.</p><p>وأتطلع إلى مواصلة التطوير والتحسين، بما يحقق الكفاءة الإدارية ويسهم في تهيئة بيئة مدرسية منظمة ومحفزة.</p><div class="ed-closing-thanks">مع خالص الشكر والتقدير لكل من أسهم في نجاح هذه الأعمال.</div><strong>'+esc(f.amb||role)+'</strong></div>'));
  out.push(scene('الإدارة ليست وظيفة، بل رسالة نبيلة لبناء الأجيال وصناعة المستقبل'));
  out.push(shell('<div class="ed-back-gold"></div><div class="ed-back-teal"></div><div class="ed-back-blue"></div>','ed-back'));
  document.title='ملف الإنجاز لـ'+role;
