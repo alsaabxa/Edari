@@ -160,7 +160,7 @@ dialog::backdrop{background:#0007}
 .ed-chapter-page .ed-blue{display:block;top:295px;left:0;right:auto;width:105px;height:385px;background:#0768a7}
 .ed-page .ed-evidence img{max-height:720px}
 @media print{@page{size:A4 portrait;margin:0}.pg.ed-page{width:794px!important;height:1123px!important;break-after:page;page-break-after:always}}
-</style><style>.pg.ed-page .ed-ministry-logo{left:auto!important;right:0!important;top:20px!important;width:94px;height:75px;object-fit:contain;z-index:30}@media print{.pg.ed-page .ed-ministry-logo{right:0!important;left:auto!important}}</style></head>
+</style><style>.pg.ed-page .ed-ministry-logo{left:auto!important;right:0!important;top:20px!important;width:94px;height:75px;object-fit:contain;z-index:30}@media print{.pg.ed-page .ed-ministry-logo{right:0!important;left:auto!important}}</style><style>.ed-goal-intro{margin:95px auto 0;padding:36px 35px;border:2px solid #c5b68e;border-right:9px solid #0baaa6;background:#f8fbfa;max-width:590px;border-radius:10px}.ed-goal-intro h3{color:#0b8989;font-size:25px;margin:0 0 22px}.ed-goal-intro p{font-size:23px;line-height:2.1;color:#23465c;margin:0}@media print{.ed-goal-intro{break-inside:avoid}}</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -235,8 +235,17 @@ function pages(){
  out.push(pg('المحتويات','<div class="ed-index">'+sections.map((x,i)=>'<div>الفصل '+(i+1)+': '+x[0]+'</div>').join('')+'</div>'));
  out.push(scene('الإدارة الناجحة هي التي تجعل الصعب سهلاً'));
  const quotes=['النجاح يبدأ بخطوة','كل وثيقة إنجاز تحمل بصمة تميز','النظام يختصر الجهد ويضاعف الإنتاج','التقارير توثق الإنجازات وتوجه المستقبل','كل إنجاز صغير يقود لإنجاز أعظم','التعلم المستمر سر الريادة'];
+ const goalDescriptions=[
+ 'تنظيم بيانات المدرسة وتحديثها وإعداد التقارير المطلوبة من نظام نور بما يدعم دقة المعلومات وسرعة الوصول إليها.',
+ 'المشاركة في تنفيذ المبادرات الثقافية المؤسسية وتوثيق أنشطتها لتعزيز التعاون والانتماء داخل المدرسة.',
+ 'متابعة حركة النقل شهريًا وتوثيق البيانات والإجراءات المرتبطة بها لضمان انتظام السجلات.',
+ 'تنظيم ومتابعة أعمال برنامج تكافل والإعانات وتوثيق المستندات والإجراءات ذات الصلة.',
+ 'إعداد البطاقات التحفيزية والمساهمة في تحسين بيئة العمل بما يعزز التقدير والدافعية.',
+ 'متابعة نتائج الطالبات وتجهيز نماذج التسليم وحفظها وتنظيمها لتيسير الإجراءات المدرسية.'
+ ];
  SEC.forEach(([key,name],i)=>{
    out.push(chapter(i,sections[i][0]));
+   out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
    const sec=S.sec[key]||{items:[],link:''};
    if(i===0)out.push(pg('البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
    const items=sec.items||[];
