@@ -317,7 +317,16 @@ html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!import
 .ed-cover-new .ed-cover-ministry:before{content:none!important;display:none!important}
 .ed-cover-new .ed-cover-ministry-logo{display:block!important;width:235px!important;height:125px!important;max-width:100%!important;object-fit:contain!important;opacity:1!important;filter:none!important}
 @media print{.ed-cover-new .ed-cover-ministry{background:#fff!important}.ed-cover-new .ed-cover-ministry-logo{opacity:1!important}}
-</style><style>.ed-cover-new .ed-cover-panel strong{border-bottom:0!important;min-width:0!important}</style></head>
+</style><style>.ed-cover-new .ed-cover-panel strong{border-bottom:0!important;min-width:0!important}</style><style id="ed-evidence-grid-layout">
+.ed-side-layout .ed-evidence-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;gap:12px!important;height:490px!important;margin-top:8px!important;direction:rtl!important}
+.ed-side-layout .ed-evidence-tile{min-width:0!important;min-height:0!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;border:1px solid #c8dedc!important;border-radius:10px!important;background:#fff!important;padding:7px!important;overflow:hidden!important;box-sizing:border-box!important}
+.ed-side-layout .ed-evidence-caption{font-size:14px!important;font-weight:800!important;color:#006f72!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;flex-shrink:0!important}
+.ed-side-layout .ed-evidence-image{display:flex!important;align-items:center!important;justify-content:center!important;min-height:0!important;flex:1!important;overflow:hidden!important}
+.ed-side-layout .ed-evidence-image img{display:block!important;max-width:100%!important;max-height:100%!important;width:auto!important;height:auto!important;object-fit:contain!important}
+.ed-side-layout .ed-evidence-summary{font-size:11px!important;line-height:1.3!important;text-align:center!important;max-height:28px!important;overflow:hidden!important;flex-shrink:0!important}
+.ed-side-layout .ed-evidence-single{grid-template-columns:1fr!important;grid-template-rows:1fr!important}
+.ed-side-layout .ed-evidence-single .ed-evidence-caption{font-size:18px!important}
+</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -406,10 +415,16 @@ function pages(){
    const sec=S.sec[key]||{items:[],link:''};
    out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
    const items=sec.items||[];
+   const evidence=[];
    for(let j=0;j<items.length;j++){
      const it=items[j],imgs=it.type==='pdf'?(it.pages||[]):[it.src];
-     if(!imgs.length){out.push(pg(name,'<div class="ed-empty">تعذر عرض ملف PDF. أعد إرفاقه.</div>'));continue}
-     imgs.forEach((img,k)=>out.push(pg(name+' — التقارير والشواهد','<div class="ed-evidence"><h3>'+esc(it.cap||'تقرير أو شاهد إنجاز')+'</h3><img src="'+img+'" alt="شاهد مرفق"><p>'+esc(it.summary||'')+'</p></div>')));
+     if(!imgs.length){evidence.push({error:true});continue}
+     imgs.forEach((img,k)=>evidence.push({img:img,cap:it.cap||'تقرير أو شاهد إنجاز',summary:it.summary||'',page:k+1,total:imgs.length}));
+   }
+   for(let j=0;j<evidence.length;j+=4){
+     const group=evidence.slice(j,j+4);
+     const cells=group.map(e=>e.error?'<div class="ed-evidence-tile ed-evidence-error">تعذر عرض الملف. أعد إرفاقه.</div>':'<div class="ed-evidence-tile"><div class="ed-evidence-caption">'+esc(e.cap)+(e.total>1?' — '+e.page+'/'+e.total:'')+'</div><div class="ed-evidence-image"><img src="'+e.img+'" alt="شاهد مرفق"></div>'+(e.summary?'<div class="ed-evidence-summary">'+esc(e.summary)+'</div>':'')+'</div>').join('');
+     out.push(pg(name+' — التقارير والشواهد','<div class="ed-evidence-grid '+(group.length===1?'ed-evidence-single':'')+'">'+cells+'</div>'));
    }
    if(!items.length)out.push(pg(name+' — التقارير والشواهد','<div class="ed-empty">تُعرض التقارير والشواهد الخاصة بهذا الهدف هنا تلقائيًا عند إرفاقها.</div>'));
    out.push(scene(quotes[i]));
