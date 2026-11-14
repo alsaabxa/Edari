@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="manifest" href="/Edari/manifest.webmanifest">
 <meta name="theme-color" content="#0B7D7C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="المساعد الإداري">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/Edari/icons/app-icon.svg">
 <title>ملف إنجاز المساعد الإداري</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Aref+Ruqaa:wght@700&display=swap">
 <style>
@@ -531,7 +531,7 @@ $("rs").onclick=()=>{if(confirm("سيُمسح كل ما أدخلته في هذا
 <script>
 (()=>{
  const button=document.getElementById('installApp'),hint=document.getElementById('installHint');
- if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
+ if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/Edari/service-worker.js',{scope:'/Edari/'}).catch(()=>{}));
  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
  if(standalone){if(button)button.hidden=true;return}
  let promptEvent=null;
