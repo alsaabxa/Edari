@@ -192,6 +192,11 @@ html,body{margin:0!important;padding:0!important;width:210mm!important;min-width
 .pg.ed-page.ed-side-layout .ed-side{position:absolute!important;right:0!important;top:0!important;bottom:0!important}
 .pg.ed-page.ed-side-layout .ed-main{margin-right:105px!important}
 }
+</style><style>
+/* Consistent A4 portrait page box for screen, PDF export and browser printing */
+.pg.ed-page.ed-side-layout{width:794px!important;height:1123px!important;min-width:794px!important;max-width:794px!important;min-height:1123px!important;max-height:1123px!important;margin:0!important;box-sizing:border-box!important}
+@page{size:A4 portrait;margin:0}
+@media print{html,body,#pages{margin:0!important;padding:0!important;width:210mm!important;min-width:0!important;max-width:210mm!important}#pages{zoom:1!important;transform:none!important}.pg.ed-page.ed-side-layout{width:210mm!important;min-width:210mm!important;max-width:210mm!important;height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;padding:0!important;break-after:page!important;page-break-after:always!important}}
 </style></head>
 <body>
 <div class="panel">
@@ -264,7 +269,7 @@ function pages(){
  out.push(shell('<div class="ed-motto">بسم الله الرحمن الرحيم</div>'));
  out.push(scene('من يزرع التنظيم يحصد التميز'));
  out.push(pg('المقدمة','<p class="ed-par">إن ملف الإنجاز يعد مرجعًا توثيقيًا يبرز دور المساعد الإداري في المدرسة، ويعكس جهوده في تنظيم العمل ومتابعة الإنجازات.</p><p class="ed-par">يهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية وإبراز الدور الحيوي للمساعد الإداري في دعم العملية التعليمية وتعزيز ثقافة الإنجاز والعمل بروح الفريق.</p>'));
- out.push(pg('فهرس الإنجازات','<div class="ed-index ed-index-grid">'+sections.map((x,i)=>'<div class="ed-index-card"><span class="ed-index-count">'+((S.sec[SEC[i][0]]||{}).items||[]).length+'</span><strong>'+esc(x[0])+'</strong></div>').join('')+'</div>'));
+ out.push(pg('الفهرس','<div class="ed-index ed-index-grid">'+sections.map((x,i)=>'<div class="ed-index-card"><span class="ed-index-count">'+((S.sec[SEC[i][0]]||{}).items||[]).length+'</span><strong>'+esc(x[0])+'</strong></div>').join('')+'</div>'));
  out.push(scene('الإدارة الناجحة هي التي تجعل الصعب سهلاً'));
  const quotes=['النجاح يبدأ بخطوة','كل وثيقة إنجاز تحمل بصمة تميز','النظام يختصر الجهد ويضاعف الإنتاج','التقارير توثق الإنجازات وتوجه المستقبل','كل إنجاز صغير يقود لإنجاز أعظم','التعلم المستمر سر الريادة'];
  const goalDescriptions=[
@@ -279,7 +284,7 @@ function pages(){
    out.push(chapter(i,name));
    const sec=S.sec[key]||{items:[],link:''};
    out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
-   if(i===0)out.push(pg('الهدف الأول — البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
+   if(i===0)out.push(pg('البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
    const items=sec.items||[];
    for(let j=0;j<items.length;j++){
      const it=items[j],imgs=it.type==='pdf'?(it.pages||[]):[it.src];
@@ -311,7 +316,7 @@ function upd(){clearTimeout(T);T=setTimeout(()=>{pages();saveDB()},250)}
 const msg=t=>{$("msg").textContent=t};
 /* انتظار الخط والصور والباركود قبل التصوير */
 async function ready(){try{await document.fonts.ready}catch(e){}await Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r})));fitText();await new Promise(r=>setTimeout(r,350))}
-async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:794,height:1123,windowWidth:850});if(i)d.addPage("a4","portrait");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,210,297,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
+async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:794,height:1123,windowWidth:794});if(i)d.addPage("a4","portrait");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,210,297,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
 const pname=()=>"ملف-إنجاز-"+(S.f.amb||(S.f.schoolType==="boys"?"المساعد الإداري":"المساعد الإدارية"))+".pdf";
 function save(b,n){const a=document.createElement("a");a.download=n||pname();a.href=URL.createObjectURL(b);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 $("dl").onclick=async()=>{try{save(await makePDF());msg("تم تنزيل الملف.")}catch(e){msg("تعذّر إنشاء PDF.")}};
