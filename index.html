@@ -264,17 +264,17 @@ function pages(){
  'متابعة نتائج الطالبات وتجهيز نماذج التسليم وحفظها وتنظيمها لتيسير الإجراءات المدرسية.'
  ];
  SEC.forEach(([key,name],i)=>{
-   out.push(chapter(i,sections[i][0]));
-   out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
+   out.push(chapter(i,name));
    const sec=S.sec[key]||{items:[],link:''};
-   if(i===0)out.push(pg('البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
+   out.push(pg(name,'<div class="ed-goal-intro"><h3>شرح مختصر للهدف</h3><p>'+esc(goalDescriptions[i])+'</p></div>'));
+   if(i===0)out.push(pg('الهدف الأول — البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
    const items=sec.items||[];
    for(let j=0;j<items.length;j++){
      const it=items[j],imgs=it.type==='pdf'?(it.pages||[]):[it.src];
      if(!imgs.length){out.push(pg(name,'<div class="ed-empty">تعذر عرض ملف PDF. أعد إرفاقه.</div>'));continue}
-     imgs.forEach((img,k)=>out.push(pg(name,'<div class="ed-evidence"><h3>'+esc(it.cap||'شاهد إنجاز')+'</h3><img src="'+img+'" alt="شاهد مرفق"><p>'+esc(it.summary||'')+'</p></div>')));
+     imgs.forEach((img,k)=>out.push(pg(name+' — التقارير والشواهد','<div class="ed-evidence"><h3>'+esc(it.cap||'تقرير أو شاهد إنجاز')+'</h3><img src="'+img+'" alt="شاهد مرفق"><p>'+esc(it.summary||'')+'</p></div>')));
    }
-   if(!items.length)out.push(pg(name,'<div class="ed-empty">تُعرض الشواهد المرفقة بهذا الفصل هنا تلقائيًا.</div>'));
+   if(!items.length)out.push(pg(name+' — التقارير والشواهد','<div class="ed-empty">تُعرض التقارير والشواهد الخاصة بهذا الهدف هنا تلقائيًا عند إرفاقها.</div>'));
    out.push(scene(quotes[i]));
  });
  out.push(pg('الخاتمة','<p class="ed-par">في ختام هذا الملف، يتجلى دور المساعد الإداري كحلقة وصل فاعلة بين القيادة والمعلمين والطلاب، وكركيزة أساسية لضمان انتظام العمل المدرسي وجودته.</p><p class="ed-par">إن ما تم توثيقه هنا ليس مجرد أوراق، بل هو شواهد على التفاني والإخلاص والحرص على خدمة بيئة التعليم.</p>'));
