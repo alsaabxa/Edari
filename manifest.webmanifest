@@ -1,0 +1,21 @@
+{
+  "id": "/Edari/",
+  "name": "ملف إنجاز المساعد الإداري",
+  "short_name": "ملف الإنجاز",
+  "description": "ملف الإنجاز الإلكتروني للمساعد والمساعدة الإدارية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/Edari/",
+  "scope": "/Edari/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0B7D7C",
+  "icons": [
+    {
+      "src": "icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
