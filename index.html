@@ -312,6 +312,11 @@ html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!import
 #pages>.pg.ed-page.ed-cover-new .ed-main{width:100%!important;margin-right:0!important}
 *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
+</style><style id="ed-cover-ministry-logo-clarity">
+.ed-cover-new .ed-cover-ministry{position:absolute!important;top:25px!important;right:285px!important;width:260px!important;height:145px!important;display:flex!important;align-items:center!important;justify-content:center!important;z-index:8!important;background:rgba(255,255,255,.96)!important;border-radius:12px!important;padding:5px!important;box-sizing:border-box!important}
+.ed-cover-new .ed-cover-ministry:before{content:none!important;display:none!important}
+.ed-cover-new .ed-cover-ministry-logo{display:block!important;width:235px!important;height:125px!important;max-width:100%!important;object-fit:contain!important;opacity:1!important;filter:none!important}
+@media print{.ed-cover-new .ed-cover-ministry{background:#fff!important}.ed-cover-new .ed-cover-ministry-logo{opacity:1!important}}
 </style></head>
 <body>
 <div class="panel">
@@ -380,7 +385,7 @@ function pages(){
  const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image"></div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
  const pg=(title,content)=>shell('<div class="ed-body">'+heading(title)+content+'</div>');
  const line=(k,v)=>'<div class="ed-line"><strong>'+esc(k)+'</strong><span>'+esc(v||'................................')+'</span></div>';
- out.push(shell('<div class="ed-new-cover"><div class="ed-cover-vision">رؤية السعودية <b>2030</b></div><div class="ed-cover-ministry">وزارة التعليم<small>Ministry of Education</small></div><div class="ed-cover-art"><div class="ed-cover-sun"></div><div class="ed-cover-school"><div class="ed-school-windows">▦ ▦ ▦<br>▦ ▦ ▦<br>▦ ▦ ▦</div><div class="ed-school-door"></div></div><div class="ed-cover-palm">🌴</div><div class="ed-cover-bus">🚌</div></div><div class="ed-cover-panel"><div class="ed-cover-folder">▣</div><h1>ملف إنجاز<br>'+role+'</h1><p>اسم '+role+': <strong>'+esc(f.amb||'................................')+'</strong></p><p>المدرسة: <strong>'+esc(f.school||'................................')+'</strong></p></div><div class="ed-cover-values"><span>دعم العملية<br>التعليمية</span><span>توثيق الأعمال<br>والإنجازات</span><span>تنظيم وإدارة<br>الإجراءات</span><span>رفع كفاءة<br>الأعمال الإدارية</span></div></div>','ed-cover ed-cover-new'));
+ out.push(shell('<div class="ed-new-cover"><div class="ed-cover-vision">رؤية السعودية <b>2030</b></div><div class="ed-cover-ministry"><img src="assets/ministry-logo.svg" alt="شعار وزارة التعليم" class="ed-cover-ministry-logo"></div><div class="ed-cover-art"><div class="ed-cover-sun"></div><div class="ed-cover-school"><div class="ed-school-windows">▦ ▦ ▦<br>▦ ▦ ▦<br>▦ ▦ ▦</div><div class="ed-school-door"></div></div><div class="ed-cover-palm">🌴</div><div class="ed-cover-bus">🚌</div></div><div class="ed-cover-panel"><div class="ed-cover-folder">▣</div><h1>ملف إنجاز<br>'+role+'</h1><p>اسم '+role+': <strong>'+esc(f.amb||'................................')+'</strong></p><p>المدرسة: <strong>'+esc(f.school||'................................')+'</strong></p></div><div class="ed-cover-values"><span>دعم العملية<br>التعليمية</span><span>توثيق الأعمال<br>والإنجازات</span><span>تنظيم وإدارة<br>الإجراءات</span><span>رفع كفاءة<br>الأعمال الإدارية</span></div></div>','ed-cover ed-cover-new'));
  out.push(shell('<div class="ed-motto">بسم الله الرحمن الرحيم</div>'));
  out.push(scene('من يزرع التنظيم يحصد التميز'));
  out.push(pg('المقدمة','<p class="ed-par">إن ملف الإنجاز يعد مرجعًا توثيقيًا يبرز دور '+role+' في المدرسة، ويعكس جهوده في تنظيم العمل ومتابعة الإنجازات.</p><p class="ed-par">يهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية وإبراز الدور الحيوي للمساعد الإداري في دعم العملية التعليمية وتعزيز ثقافة الإنجاز والعمل بروح الفريق.</p>'));
