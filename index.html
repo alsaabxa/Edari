@@ -356,6 +356,11 @@ html,body{width:297mm!important;min-width:297mm!important;max-width:297mm!import
 .ed-closing p{font-size:20px;line-height:1.8;margin:12px auto}
 .ed-closing-thanks{margin:22px auto 10px;color:#b48a28;font-weight:800;font-size:21px}
 .ed-closing strong{font-size:19px;color:#087e80}
+</style><style id="ed-profile-value-alignment">
+.ed-profile-card .ed-line{display:grid!important;grid-template-columns:42% minmax(0,1fr)!important;direction:rtl!important;align-items:center!important;gap:10px!important;justify-content:initial!important}
+.ed-profile-card .ed-line strong{grid-column:1!important;text-align:right!important;white-space:normal!important}
+.ed-profile-card .ed-line span{grid-column:2!important;text-align:right!important;direction:rtl!important;min-width:0!important;overflow-wrap:anywhere!important}
+.ed-profile-school .ed-line{grid-template-columns:26% minmax(0,1fr)!important}
 </style></head>
 <body>
 <div class="panel">
@@ -467,7 +472,7 @@ function pages(){
  }
  out.push(pg('الخاتمة','<div class="ed-closing"><h2>ختام ملف الإنجاز</h2><p>في ختام هذا الملف، أعتز بتوثيق ما أُنجز من أعمال ومهام إدارية أسهمت في تنظيم الإجراءات المدرسية، ودعم العملية التعليمية، وتعزيز جودة العمل بروح التعاون والمسؤولية.</p><p>وأتطلع إلى مواصلة التطوير والتحسين، بما يحقق الكفاءة الإدارية ويسهم في تهيئة بيئة مدرسية منظمة ومحفزة.</p><div class="ed-closing-thanks">مع خالص الشكر والتقدير لكل من أسهم في نجاح هذه الأعمال.</div><strong>'+esc(f.amb||role)+'</strong></div>'));
  out.push(scene('الإدارة ليست وظيفة، بل رسالة نبيلة لبناء الأجيال وصناعة المستقبل'));
- out.push(shell('<div class="ed-back-gold"></div><div class="ed-back-teal"></div><div class="ed-back-blue"></div>','ed-back'));
+
  document.title='ملف الإنجاز لـ'+role;
  $("main-title").textContent=document.title;
  $("pages").innerHTML=out.join("");
