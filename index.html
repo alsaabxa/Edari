@@ -104,7 +104,21 @@ dialog::backdrop{background:#0007}
  .pg:last-child{break-after:auto;page-break-after:auto}
 }
 </style>
-</head>
+<style>
+.pg.ed-page{width:794px;height:1123px;background:#fff;box-shadow:0 2px 10px #0002;position:relative;overflow:hidden;color:#173a55;font-family:"Tajawal",Tahoma,sans-serif}
+.ed-page .ed-top{position:absolute;top:0;right:0;left:0;height:12px;background:#4388b9}
+.ed-page .ed-bottom{position:absolute;bottom:0;right:0;width:53%;height:19px;background:linear-gradient(90deg,#05b8a4,#06a29e);border-radius:0 30px 0 0}
+.ed-cover-photo{position:absolute;top:140px;left:10%;right:0;height:740px;background:linear-gradient(125deg,#1b9caa99,#00bfa6cc),linear-gradient(30deg,#e1e5e2,#98b7b4)}
+.ed-cover-title{position:absolute;top:390px;left:0;right:10%;background:#0ba5a3;padding:36px 55px;color:white;min-height:240px}.ed-cover-title h1{color:white;font-size:34px;margin:0 0 24px}.ed-cover-title p{font-size:19px;margin:8px 0}.ed-cover-sign{position:absolute;top:45px;left:40px;color:#00a898;font-weight:700}
+.ed-motto{font-size:72px;font-weight:900;color:#bfb28b;text-align:center;margin-top:430px}
+.ed-heading{background:linear-gradient(90deg,#0a9c71,#3d90bd);border-radius:25px;color:#fff;text-align:center;font-size:23px;font-weight:800;padding:10px 25px;margin:55px 35px 35px}
+.ed-body{padding:20px 70px;font-size:23px;line-height:2}.ed-par{text-align:justify;margin:25px 0}.ed-index{font-size:19px}.ed-index>div{padding:15px;border:1px solid #d5d3c4;margin:12px 0;border-radius:7px}
+.ed-scene{position:absolute;top:305px;left:9%;right:0}.ed-quote{display:flex;align-items:center;background:#08a9a4;color:white;font-size:23px;min-height:140px;gap:30px;padding:20px}.ed-icon{background:#c5b68e;padding:32px;font-size:45px;color:white}.ed-desk{margin:22px 10% 0 0;height:310px;background:linear-gradient(150deg,#f3f1eb,#dce8e6);display:grid;place-items:center;font-size:80px;color:#728c8e}
+.ed-chapter{position:absolute;top:220px;right:0;width:83%;height:290px;background:#e6d3b2}.ed-chapter-image{height:190px;background:linear-gradient(120deg,#d5a87f,#f4e3ce);display:grid;place-items:center;font-size:50px;color:#6c5746}.ed-chapter-band{height:100px;background:#c5b58bc9;display:grid;place-items:center;font-size:29px;font-weight:800;color:#174f78}.ed-blue{position:absolute;left:0;top:220px;height:290px;width:65px;background:#0766a4}
+.ed-data{margin-top:45px}.ed-line{display:flex;justify-content:space-between;border-bottom:1px solid #d8e5e6;padding:14px 5px;gap:15px;font-size:19px}.ed-evidence{text-align:center}.ed-evidence h3{font-size:22px}.ed-evidence img{max-width:100%;max-height:700px;object-fit:contain}.ed-evidence p{font-size:18px}.ed-empty{border:2px dashed #a7c7c7;padding:70px 20px;text-align:center;color:#62858a;margin-top:100px}
+.ed-back-gold{position:absolute;top:120px;right:0;width:100%;height:710px;background:#c6b68e}.ed-back-teal{position:absolute;top:600px;right:0;width:75%;height:300px;background:#0fa6a4}.ed-back-blue{position:absolute;top:900px;right:0;width:75%;height:200px;background:#4487b9}
+@media print{.pg.ed-page{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none;page-break-after:always}}
+</style></head>
 <body>
 <div class="panel">
  <h1 id="main-title">ملف إنجاز المساعد الإداري</h1>
@@ -164,37 +178,47 @@ document.addEventListener("input",e=>{const t=e.target,d=t.dataset;if(d.f)S.f[d.
 document.addEventListener("change",async e=>{const t=e.target,k=t.dataset.up;if(!k)return;const name=SEC.find(x=>x[0]===k)?.[1]||"";for(const f of t.files){if(f.size>20*1024*1024){msg(`تم تجاوز الملف «${f.name}»؛ الحد الأقصى 20 ميجابايت.`);continue}const cap=f.name.replace(/\.[^.]+$/,"").replace(/^تقرير-/,"");if(f.type==="application/pdf"||/\.pdf$/i.test(f.name)){try{const src=await rd(f),pages=await renderPdfPages(src);S.sec[k].items.push({type:"pdf",src,pages,cap,beneficiary:name,summary:cap})}catch(error){msg(`تعذر قراءة ملف «${f.name}». تأكد من أنه PDF صالح وغير محمي بكلمة مرور.`)}}else{const src=await shrink(await rd(f));S.sec[k].items.push({type:"image",src,cap,beneficiary:name,summary:cap})}}t.value="";secPanel();upd()});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-del]");if(!b)return;const[k,i]=b.dataset.del.split(":");S.sec[k].items.splice(+i,1);secPanel();upd()});
 function pages(){
- const f=S.f,g=gender(),hl=f.hdr.split("\n").map(x=>x.trim()).filter(Boolean),nm=f.amb?" — "+esc(f.amb):"";
- document.title=`ملف إنجاز ${g.ambTitle} المساعد الإداري`;$("main-title").textContent=document.title;
- const link=shareURL(),qrOn=!!f.qr&&!!link,
- sb=`<div class="sb"><div class="logo-wrap"><img class="ministry-logo" src="${LOGO}" alt="شعار وزارة التعليم"></div><div>${hl.map(esc).join("<br>")}</div></div>`,out=[];let n=1;
- const pg=(t,b,x="")=>{n++;out.push(`<section class="pg">${sb}<div class="ct"><div class="pt">${t}</div>${x}${b}</div><div class="fo"><span>ملف إنجاز ${g.ambTitle} المساعد الإداري${nm}</span><span>${n}</span></div></section>`)};
- const qr=(u,w,l)=>u?`<div class="qr" data-t="${esc(u)}" data-w="${w}"></div>${l?`<div style="margin-top:6px;line-height:1.5;font-size:14px;color:var(--ink)">${l}</div>`:""}`:"";
- /* الغلاف: الصفحة الأولى من السجل، والاسم والمدرسة من الخانات */
- out.push(`<section class="pg cv"><img class="cvbg" src="${COVER}" alt=""><div class="hd"><div>${hl.map(esc).join("<br>")}</div></div><div class="sg">إنجاز إداري<br>موثّق بالشواهد</div><div class="ft">ملف الإنجاز الإداري</div><div class="fld" style="top:372px;width:250px">${esc(f.amb)}</div><div class="fld" style="top:406px;width:286px">${esc(f.school)}</div>${qrOn?`<div class="cq">${qr(link,84,"")}<div>امسح الباركود<br>للاطلاع على الملف</div></div>`:""}</section>`);
- const row=(l,v)=>`<div class="rw"><b>${l}</b><span>${esc(v)||"................................"}</span></div>`;
- pg("البيانات الشخصية",`<div class="two"><div class="bx"><h3>بيانات ${g.ambTitle} المساعد الإداري</h3>${row("الاسم",f.amb)}${row("الجوال",f.ambTel)}${row("البريد الإلكتروني",f.ambMail)}</div><div class="bx"><h3>بيانات ${g.principalTitle} المدرسة</h3>${row("الاسم",f.prin)}${row("الجوال",f.prinTel)}${row("بريد المدرسة الرسمي",f.prinMail)}</div></div><div class="bx" style="margin-top:18px">${row("اسم المدرسة",f.school)}${row("العام الدراسي",f.year)}</div>`);
- pg("فهرس الإنجازات",`<div class="ix">${SEC.map(([k,nn])=>`<div><span>${nn}</span><b>${S.sec[k].items.length}</b></div>`).join("")}</div>`);
- SEC.forEach(([k,nn])=>{const s=S.sec[k];let images=[],first=true;const flushImages=()=>{if(!images.length)return;const c=images.splice(0,3);pg(nn,`<div class="gr">${c.map(x=>`<div class="cd"><div class="im"><img src="${x.src}" alt=""></div>${x.cap?`<div class="ca">${esc(x.cap)}</div>`:""}</div>`).join("")}</div>`,first&&s.link?`<div class="qq">${qr(s.link,64,"")}<div>امسح للاطلاع على التوثيق</div></div>`:"");first=false};for(const item of s.items){if(item.type==="pdf"){flushImages();const pdfPages=Array.isArray(item.pages)?item.pages:[];if(!pdfPages.length){pg(`${nn} — ${item.cap||"مرفق PDF"}`,`<div class="pdf-sheet" style="color:#a83232;font-weight:700">تعذر عرض صفحات هذا المرفق. أعد رفع ملف PDF صالحًا.</div>`,first&&s.link?`<div class="qq">${qr(s.link,64,"")}<div>امسح للاطلاع على التوثيق</div></div>`:"");first=false;continue}pdfPages.forEach((src,i)=>{pg(`${nn} — ${item.cap||"مرفق PDF"} (${i+1}/${pdfPages.length})`,`<div class="pdf-sheet"><img src="${src}" alt="${esc(item.cap||"صفحة PDF")}"></div>`,first&&s.link?`<div class="qq">${qr(s.link,64,"")}<div>امسح للاطلاع على التوثيق</div></div>`:"");first=false})}else{images.push(item);if(images.length===3)flushImages()}}flushImages()});
- /* إرفاق صفحة الخطة التشغيلية كصفحة كاملة ضمن الملف */
- out.push(`<section class="pg"><img class="plan-page" src="assets/operational-plan.png" alt="الخطة التشغيلية لالمساعد الإداري"></section>`);n++;
- /* سجل التقارير والإنجازات، يملأ من المرفقات ويظهر قبل صفحة الختام */
- const records=SEC.flatMap(([k,name])=>S.sec[k].items.map(x=>({title:x.cap||"",beneficiary:x.beneficiary||name,summary:x.summary??x.cap??""})));
- const registryPageCount=Math.max(1,Math.ceil(records.length/12));
- for(let ri=0;ri<registryPageCount;ri++){
-  const chunk=records.slice(ri*12,(ri+1)*12);
-  const rows=Array.from({length:12},(_,j)=>{const x=chunk[j];return `<tr><td><div class="rg-value" title="${esc(x?.title||"")}">${esc(x?.title||"")}</div></td><td><div class="rg-value" title="${esc(x?.beneficiary||"")}">${esc(x?.beneficiary||"")}</div></td><td><div class="rg-value" title="${esc(x?.summary||"")}">${esc(x?.summary||"")}</div></td></tr>`}).join("");
-  pg(`سجل التقارير والإنجازات${ri?" (تابع)":""}`,`<div class="rg-meta"><span>اسم المدرسة: ${esc(f.school||"................................................")}</span><span class="rg-terms">الفصل الأول <i class="rg-check">${f.semester==="1"?"✓":""}</i> الفصل الثاني <i class="rg-check">${f.semester==="2"?"✓":""}</i></span></div><table class="rg-table"><thead><tr><th>عنوان العمل/التقرير</th><th>الجهة المستفيدة</th><th>وصف موجز للعمل</th></tr></thead><tbody>${rows}</tbody></table><div class="rg-note"><b>ملاحظات وإرشادات:</b> أُدرجت التقارير المرفقة تلقائيًا. حدّث عنوان التقرير والجهة المستفيدة والوصف من حقول كل مرفق قبل تنزيل الملف.</div>`);
- }
- pg("ختام الملف",`<div style="text-align:center;margin-top:80px;font-size:24px;color:var(--t)">شكرًا لجهودكم في تطوير العمل الإداري<div style="margin-top:20px;font-size:17px;color:var(--ink)">"ثقافتنا المؤسسية هي ما يميزنا عن الآخرين.. فلنكن ${g.plural} لها ونصنع الفرق"</div>${qrOn?`<div style="margin-top:24px">${qr(link,110,"امسح الباركود للاطلاع على الملف")}</div>`:""}</div>`);
+ const f=S.f, out=[];let n=0;
+ const sections=[["البيانات الأساسية","البيانات الأساسية"],["الشواهد والوثائق","الشواهد والوثائق"],["النماذج والاستمارات","النماذج والاستمارات"],["الخطط والتقارير","الخطط والتقارير"],["المبادرات والإنجازات","المبادرات والإنجازات"],["أوراق العمل والتدريب","أوراق العمل والتدريب"]];
+ const shell=(body,cl="")=>'<section class="pg ed-page '+cl+'"><div class="ed-top"></div>'+body+'<div class="ed-bottom"></div></section>';
+ const heading=(t)=>'<div class="ed-heading">'+esc(t)+'</div>';
+ const scene=(quote)=>shell('<div class="ed-scene"><div class="ed-quote"><span class="ed-icon">✦</span><span>'+esc(quote)+'</span></div><div class="ed-desk">✎ &nbsp; ▤ &nbsp; ◇ &nbsp; ▱</div></div>','ed-scene-page');
+ const chapter=(i,title)=>shell('<div class="ed-chapter"><div class="ed-chapter-image">✎ &nbsp; ▤ &nbsp; ✂ &nbsp; ▱</div><div class="ed-chapter-band">الفصل '+['الأول','الثاني','الثالث','الرابع','الخامس','السادس'][i]+': '+esc(title)+'</div></div><div class="ed-blue"></div>','ed-chapter-page');
+ const pg=(title,content)=>shell('<div class="ed-body">'+heading(title)+content+'</div>');
+ const line=(k,v)=>'<div class="ed-line"><strong>'+esc(k)+'</strong><span>'+esc(v||'................................')+'</span></div>';
+ out.push(shell('<div class="ed-cover-photo"></div><div class="ed-cover-title"><h1>ملف الإنجاز للمساعد الإداري</h1><p>الاسم: '+esc(f.amb||'........................')+'</p><p>المدرسة: '+esc(f.school||'........................')+'</p></div><div class="ed-cover-sign">وزارة التعليم</div>','ed-cover'));
+ out.push(shell('<div class="ed-motto">بسم الله الرحمن الرحيم</div>'));
+ out.push(scene('من يزرع التنظيم يحصد التميز'));
+ out.push(pg('المقدمة','<p class="ed-par">إن ملف الإنجاز يعد مرجعًا توثيقيًا يبرز دور المساعد الإداري في المدرسة، ويعكس جهوده في تنظيم العمل ومتابعة الإنجازات.</p><p class="ed-par">يهدف هذا الملف إلى توثيق الأعمال الإدارية اليومية والفصلية وإبراز الدور الحيوي للمساعد الإداري في دعم العملية التعليمية وتعزيز ثقافة الإنجاز والعمل بروح الفريق.</p>'));
+ out.push(pg('المحتويات','<div class="ed-index">'+sections.map((x,i)=>'<div>الفصل '+(i+1)+': '+x[0]+'</div>').join('')+'</div>'));
+ out.push(scene('الإدارة الناجحة هي التي تجعل الصعب سهلاً'));
+ const quotes=['النجاح يبدأ بخطوة','كل وثيقة إنجاز تحمل بصمة تميز','النظام يختصر الجهد ويضاعف الإنتاج','التقارير توثق الإنجازات وتوجه المستقبل','كل إنجاز صغير يقود لإنجاز أعظم','التعلم المستمر سر الريادة'];
+ SEC.forEach(([key,name],i)=>{
+   out.push(chapter(i,sections[i][0]));
+   const sec=S.sec[key]||{items:[],link:''};
+   if(i===0)out.push(pg('البيانات الأساسية','<div class="ed-data">'+line('الاسم',f.amb)+line('المدرسة',f.school)+line('العام الدراسي',f.year)+line('اسم المدير/ة',f.prin)+line('البريد الإلكتروني',f.ambMail)+'</div>'));
+   const items=sec.items||[];
+   for(let j=0;j<items.length;j++){
+     const it=items[j],imgs=it.type==='pdf'?(it.pages||[]):[it.src];
+     if(!imgs.length){out.push(pg(name,'<div class="ed-empty">تعذر عرض ملف PDF. أعد إرفاقه.</div>'));continue}
+     imgs.forEach((img,k)=>out.push(pg(name,'<div class="ed-evidence"><h3>'+esc(it.cap||'شاهد إنجاز')+'</h3><img src="'+img+'" alt="شاهد مرفق"><p>'+esc(it.summary||'')+'</p></div>')));
+   }
+   if(!items.length)out.push(pg(name,'<div class="ed-empty">تُعرض الشواهد المرفقة بهذا الفصل هنا تلقائيًا.</div>'));
+   out.push(scene(quotes[i]));
+ });
+ out.push(pg('الخاتمة','<p class="ed-par">في ختام هذا الملف، يتجلى دور المساعد الإداري كحلقة وصل فاعلة بين القيادة والمعلمين والطلاب، وكركيزة أساسية لضمان انتظام العمل المدرسي وجودته.</p><p class="ed-par">إن ما تم توثيقه هنا ليس مجرد أوراق، بل هو شواهد على التفاني والإخلاص والحرص على خدمة بيئة التعليم.</p>'));
+ out.push(scene('الإدارة ليست وظيفة، بل رسالة نبيلة لبناء الأجيال وصناعة المستقبل'));
+ out.push(shell('<div class="ed-back-gold"></div><div class="ed-back-teal"></div><div class="ed-back-blue"></div>','ed-back'));
+ document.title='ملف الإنجاز للمساعد الإداري';
+ $("main-title").textContent=document.title;
  $("pages").innerHTML=out.join("");
- document.querySelectorAll("#pages [data-t]").forEach(el=>{if(window.QRCode)new QRCode(el,{text:el.dataset.t,width:+el.dataset.w,height:+el.dataset.w,correctLevel:QRCode.CorrectLevel.M});else el.textContent="QR"});
- fitText();fit()}
+ fit();
+}
 /* تصغير الخط تلقائيًا عند طول الاسم أو الترويسة */
 function fitText(){
  document.querySelectorAll(".cv .fld").forEach(e=>{let s=19;e.style.fontSize=s+"px";while(e.scrollWidth>e.clientWidth+1&&s>10){s-=.5;e.style.fontSize=s+"px"}});
  document.querySelectorAll(".cv .hd").forEach(e=>{const i=e.firstElementChild;let s=17;e.style.fontSize=s+"px";while((i.scrollHeight>e.clientHeight||i.scrollWidth>e.clientWidth+1)&&s>9){s-=.5;e.style.fontSize=s+"px"}})}
-const fit=()=>{$("pages").style.zoom=Math.min(1,(document.documentElement.clientWidth-32)/1123)};
+const fit=()=>{$("pages").style.zoom=Math.min(1,(document.documentElement.clientWidth-32)/794)};
 addEventListener("resize",fit);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitText);
 const idb=()=>new Promise((r,j)=>{const q=indexedDB.open("edari-portfolio",1);q.onupgradeneeded=()=>q.result.createObjectStore("s");q.onsuccess=()=>r(q.result);q.onerror=j});
@@ -204,7 +228,7 @@ function upd(){clearTimeout(T);T=setTimeout(()=>{pages();saveDB()},250)}
 const msg=t=>{$("msg").textContent=t};
 /* انتظار الخط والصور والباركود قبل التصوير */
 async function ready(){try{await document.fonts.ready}catch(e){}await Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r})));fitText();await new Promise(r=>setTimeout(r,350))}
-async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"landscape",unit:"mm",format:[297,167.1]}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:1123,height:632,windowWidth:1200});if(i)d.addPage([297,167.1],"landscape");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,297,167.1,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
+async function makePDF(){pages();const z=$("pages").style.zoom;$("pages").style.zoom=1;try{await ready();const {jsPDF}=window.jspdf,d=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"}),ps=[...document.querySelectorAll(".pg")],sc=ps.length>30?1.5:2;for(let i=0;i<ps.length;i++){msg(`جارٍ تجهيز الملف… ${i+1}/${ps.length}`);const c=await html2canvas(ps[i],{scale:sc,backgroundColor:"#F7F9F8",useCORS:true,logging:false,width:794,height:1123,windowWidth:850});if(i)d.addPage("a4","portrait");d.addImage(c.toDataURL("image/jpeg",.88),"JPEG",0,0,210,297,undefined,"FAST")}return d.output("blob")}finally{$("pages").style.zoom=z;fit()}}
 const pname=()=>"ملف-إنجاز-"+(S.f.amb||(S.f.schoolType==="boys"?"السفير":"السفيرة"))+".pdf";
 function save(b,n){const a=document.createElement("a");a.download=n||pname();a.href=URL.createObjectURL(b);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 $("dl").onclick=async()=>{try{save(await makePDF());msg("تم تنزيل الملف.")}catch(e){msg("تعذّر إنشاء PDF.")}};
