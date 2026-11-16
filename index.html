@@ -401,7 +401,7 @@ if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudfl
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const SEC=[["g1","الهدف الأول: بيانات المدرسة وتقارير نظام نور"],["g2","الهدف الثاني: المبادرات الثقافية المؤسسية"],["g3","الهدف الثالث: حركة النقل الشهرية"],["g4","الهدف الرابع: برنامج تكافل والإعانات"],["g5","الهدف الخامس: البطاقات التحفيزية وتحسين بيئة العمل"],["g6","الهدف السادس: نتائج الطالبات ونماذج التسليم"]];
 const gender=()=>S.f.schoolType==="boys"?{amb:"المساعد الإداري",principal:"المدير",ambTitle:"مساعد إداري",principalTitle:"مدير",plural:"مساعدون إداريون"}:{amb:"المساعدة الإدارية",principal:"المديرة",ambTitle:"مساعدة إدارية",principalTitle:"مديرة",plural:"مساعدات إداريات"};
-const F=()=>{const g=gender();return [["amb",`اسم ${g.amb}`],["ambTel",`جوال ${g.amb}`],["ambMail",`البريد الإلكتروني ${S.f.schoolType==="boys"?"للمساعد الإداري":"للمساعدة إدارية"}`],["prin",`اسم ${g.principal}`],["prinTel",`جوال ${g.principal}`],["prinMail","بريد المدرسة الرسمي"],["school","اسم المدرسة"],["year","العام الدراسي"]]};
+const F=()=>{const g=gender();return [["amb",`اسم ${g.amb}`],["ambTel",`جوال ${g.amb}`],["ambMail",`البريد الإلكتروني ${S.f.schoolType==="boys"?"للمساعد الإداري":"للمساعدة الإدارية"}`],["prin",`اسم ${g.principal}`],["prinTel",`جوال ${g.principal}`],["prinMail","بريد المدرسة الرسمي"],["school","اسم المدرسة"],["year","العام الدراسي"]]};
 const DEF=()=>({f:{schoolType:"girls",evidenceLayout:"grid",year:"١٤٤٨هـ",hdr:"الإدارة العامة للتعليم بمنطقة مكة المكرمة\nاسم المدرسة",share:"",qr:""},sec:Object.fromEntries(SEC.map(([k])=>[k,{link:"",items:[]}]))});
 let S=DEF(),T;
 if(top===window&&$("rl"))$("rl").replaceWith("تبويب التقارير");
@@ -477,7 +477,9 @@ function pages(){
  out.push(pg('الخاتمة','<div class="ed-closing"><h2>ختام ملف الإنجاز</h2><p>في ختام هذا الملف، أعتز بتوثيق ما أُنجز من أعمال ومهام إدارية أسهمت في تنظيم الإجراءات المدرسية، ودعم العملية التعليمية، وتعزيز جودة العمل بروح التعاون والمسؤولية.</p><p>وأتطلع إلى مواصلة التطوير والتحسين، بما يحقق الكفاءة الإدارية ويسهم في تهيئة بيئة مدرسية منظمة ومحفزة.</p><div class="ed-closing-thanks">مع خالص الشكر والتقدير لكل من أسهم في نجاح هذه الأعمال.</div><strong>'+esc(f.amb||role)+'</strong></div>'));
  out.push(scene('الإدارة ليست وظيفة، بل رسالة نبيلة لبناء الأجيال وصناعة المستقبل'));
 
- document.title='ملف الإنجاز لـ'+role;
+ document.title='ملف إنجاز '+role;
+ const appTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(appTitle)appTitle.content='ملف إنجاز '+role;
+ const installButton=document.getElementById('installApp');if(installButton)installButton.setAttribute('aria-label','تثبيت تطبيق '+role);
  $("main-title").textContent=document.title;
  $("pages").innerHTML=out.join("");
  document.querySelectorAll('[data-section-qr]').forEach(box=>{try{if(window.QRCode)new QRCode(box,{text:box.dataset.sectionQr,width:100,height:100,correctLevel:QRCode.CorrectLevel.M})}catch(e){box.textContent='افتح الرابط أعلاه'}});
@@ -504,7 +506,7 @@ const pname=()=>"ملف-إنجاز-"+(S.f.amb||(S.f.schoolType==="boys"?"الم�
 function save(b,n){const a=document.createElement("a");a.download=n||pname();a.href=URL.createObjectURL(b);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 $("dl").onclick=async()=>{try{save(await makePDF());msg("تم تنزيل الملف.")}catch(e){msg("تعذّر إنشاء PDF.")}};
 $("sh").onclick=async()=>{try{const b=await makePDF(),f=new File([b],pname(),{type:"application/pdf"}),u=shareURL();
- if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:`ملف إنجاز ${gender().amb} المساعد الإداري`,text:u||""});msg("تمت المشاركة.")}
+ if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:`ملف إنجاز ${gender().amb}`,text:u||""});msg("تمت المشاركة.")}
  else{save(b);let t="هذا المتصفح لا يدعم مشاركة الملفات مباشرة؛ نُزّل الملف لترفعه وتشاركه.";if(u){try{await navigator.clipboard.writeText(u);t+=" ونُسخ رابط المشاركة."}catch(e){}}msg(t)}}
  catch(e){if(e.name!="AbortError")msg("تعذّرت المشاركة.")}};
 /* ---------- مشاركة QR ---------- */
@@ -523,8 +525,8 @@ $("qOn").onchange=e=>{S.f.qr=e.target.checked?"1":"";upd()};
 $("qc").onclick=async()=>{const u=shareURL();if(!u)return qm("لا يوجد رابط لنسخه.");try{await navigator.clipboard.writeText(u);qm("تم نسخ الرابط.")}catch(e){$("qlink").select();qm("حدّد الرابط وانسخه يدويًا.")}};
 $("qp").onclick=async()=>{const b=await qrBlob();if(!b)return qm("تعذّر إنشاء صورة الباركود.");save(b,"qr-ملف-الإنجاز.png");qm("تم تنزيل صورة الباركود.")};
 $("qs").onclick=async()=>{const u=shareURL();if(!u)return qm("لا يوجد رابط للمشاركة.");try{const b=await qrBlob(),f=b&&new File([b],"qr-ملف-الإنجاز.png",{type:"image/png"});
- if(f&&navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:"ملف إنجاز المساعد الإداري",text:u});
- else if(navigator.share)await navigator.share({title:"ملف إنجاز المساعد الإداري",url:u});
+ if(f&&navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:"ملف إنجاز "+gender().amb,text:u});
+ else if(navigator.share)await navigator.share({title:"ملف إنجاز "+gender().amb,url:u});
  else{await navigator.clipboard.writeText(u);qm("المتصفح لا يدعم المشاركة المباشرة؛ نُسخ الرابط.")}}
  catch(e){if(e.name!="AbortError")qm("تعذّرت المشاركة، جرّب نسخ الرابط أو تنزيل الصورة.")}};
 const receivedReports=new Set(),pendingReports=new Set(),pendingTransfers=[];
